@@ -21,8 +21,8 @@ def index():
     if request.method == "POST":
         room_id = request.form['room_id']
         return redirect(url_for("entry_checkpoint", room_id=room_id))
+    return render_template("home.html")  # Ensure home.html links to "/join-room/"
 
-    return render_template("home.html")
 
 @app.route("/room/<string:room_id>/")
 def enter_room(room_id):
@@ -40,7 +40,13 @@ def entry_checkpoint(room_id):
         return redirect(url_for("enter_room", room_id=room_id))
 
     return render_template("chatroom_checkpoint.html", room_id=room_id)
-    
+@app.route("/join-room/", methods=["GET", "POST"])
+def join_room_page():
+    if request.method == "POST":
+        room_id = request.form['room_id']
+        return redirect(url_for("entry_checkpoint", room_id=room_id))
+    return render_template("join_room.html")
+
 
 
 @socketio.on("connect")
